@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { CreateUrlDto } from './dto/create-url.dto';
 import { DatabaseService } from 'src/database/database.service';
-
+import { nanoid } from 'nanoid';
 
 @Injectable()
 export class UrlsService {
@@ -13,18 +13,10 @@ export class UrlsService {
 
   async create(createUrlDto: CreateUrlDto) {
  
-    let shortUrl = null 
-    let expiry = null
+    let shortUrl = createUrlDto.short_url ? createUrlDto.short_url : null; 
+    // let expiry = createUrlDto.expires_at ? new Date(Date.now() + createUrlDto.expires_at * 60 * 60 * 1000) : null
 
-    if ( createUrlDto.short_url ) {
-      shortUrl = createUrlDto.short_url
-    }
-
-    if ( createUrlDto.expires_at ) {
-      expiry = createUrlDto.expires_at
-    }
-
-    await this.databaseService.url.create({data: {expries_at:expiry, short_url:shortUrl, original_url:createUrlDto.original_url}})
+    await this.databaseService.url.create({data: {expries_at:null, short_url:shortUrl, original_url:createUrlDto.original_url}})
   
     return 'success';
   }
