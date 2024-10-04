@@ -1,0 +1,28 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model Url  {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  original_url String
+  short_url String @unique
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt()
+  clicks Int @default(0)
+  expries_at DateTime?
+  analytics Analytics[] @relation("UrlAnalytics")
+}
+
+model Analytics {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  url Url @relation(fields: [url_id], references: [id], name: "UrlAnalytics")
+  url_id String @db.ObjectId
+  ip_address String
+  device String 
+  time_stamp DateTime @default(now())
+}
