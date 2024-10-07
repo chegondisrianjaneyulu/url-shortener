@@ -19,7 +19,7 @@ export class UrlsService {
   }
 
   async findOne(id: string) {
-    //check expiry and return url 
+
     let url =  await this.databaseService.url.findUnique({where : {short_url:id}});
 
     if ( !url || (url.expries_at && url.expries_at < new Date()) ) {
@@ -27,7 +27,7 @@ export class UrlsService {
     }
 
     await this.databaseService.url.update({ where : {short_url: id}, data : {clicks: {increment: 1}} })
-
+    
     return url;
   }
 

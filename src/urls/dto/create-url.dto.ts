@@ -1,10 +1,10 @@
-import { IsString, IsOptional, IsDateString } from 'class-validator';
+import { IsString, IsOptional, IsDateString, IsNumber } from 'class-validator';
 
 export class CreateUrlDto {
     @IsString()
     original_url: string  
 
     @IsOptional()
-    @IsDateString()
+    @IsNumber()
     expires_at?: number
 }
