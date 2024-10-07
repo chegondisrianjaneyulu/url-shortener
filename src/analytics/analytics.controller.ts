@@ -7,11 +7,6 @@ import { UpdateAnalyticsDto } from './dto/update-analytics.dto';
 export class AnalyticsController {
   constructor(private readonly analyticsService: AnalyticsService) {}
 
-  @Post()
-  create(@Body() createAnalyticsDto: CreateAnalyticsDto) {
-    return this.analyticsService.create(createAnalyticsDto);
-  }
-
   @Get()
   findAll() {
     return this.analyticsService.findAll();

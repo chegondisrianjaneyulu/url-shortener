@@ -8,7 +8,7 @@ export class UrlsService {
   constructor (private readonly databaseService:  DatabaseService){}
 
   findAll() {
-    return this.databaseService.url.findMany();
+    return this.databaseService.url.findMany({include: {analytics:true}});
   }
 
   async create(createUrlDto: CreateUrlDto) {
@@ -29,6 +29,21 @@ export class UrlsService {
     await this.databaseService.url.update({ where : {short_url: id}, data : {clicks: {increment: 1}} })
     
     return url;
+  }
+
+  async saveAnalytics(shortUrl:string, ip:string, device:string) {
+    const url = await this.databaseService.url.findUnique({where: {short_url: shortUrl}})
+
+    if (url) {
+      await this.databaseService.analytics.create({
+        data: {
+          url_id : url.id,
+          ip_address: ip,
+          device: device
+        }
+      })
+    }
+
   }
 
 }
