@@ -1,26 +1,23 @@
 import { Injectable } from '@nestjs/common';
 import { CreateAnalyticsDto } from './dto/create-analytics.dto';
 import { UpdateAnalyticsDto } from './dto/update-analytics.dto';
-
+import { DatabaseService } from 'src/database/database.service';
 @Injectable()
 export class AnalyticsService {
-  create(createAnalyticsDto: CreateAnalyticsDto) {
-    return 'This action adds a new analytics';
+  
+  constructor(private readonly databaseService: DatabaseService){}
+
+  async create(createAnalyticsDto: CreateAnalyticsDto) {
+    return await this.databaseService.analytics.create({data:createAnalyticsDto});
   }
 
-  findAll() {
-    return `This action returns all analytics`;
+  async findAll() {
+    return await this.databaseService.analytics.findMany({});
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} analytics`;
+  async findOne(id: number) {
+    return await this.databaseService.analytics.findUnique({where: {id}});
   }
 
-  update(id: number, updateAnalyticsDto: UpdateAnalyticsDto) {
-    return `This action updates a #${id} analytics`;
-  }
 
-  remove(id: number) {
-    return `This action removes a #${id} analytics`;
-  }
 }
