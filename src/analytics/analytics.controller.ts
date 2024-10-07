@@ -1,7 +1,6 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, ParseIntPipeOptions, ParseIntPipe } from '@nestjs/common';
+import { Controller, Get,  Param, ParseIntPipe } from '@nestjs/common';
 import { AnalyticsService } from './analytics.service';
-import { CreateAnalyticsDto } from './dto/create-analytics.dto';
-import { UpdateAnalyticsDto } from './dto/update-analytics.dto';
+
 
 @Controller('analytics')
 export class AnalyticsController {
