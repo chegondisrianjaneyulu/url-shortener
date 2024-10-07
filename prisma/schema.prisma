@@ -3,12 +3,12 @@ generator client {
 }
 
 datasource db {
-  provider = "mongodb"
+  provider = "mysql"
   url      = env("DATABASE_URL")
 }
 
 model Url  {
-  id String @id @default(auto()) @map("_id") @db.ObjectId
+  id Int @id @default(autoincrement())
   original_url String
   short_url String @unique
   created_at DateTime @default(now())
@@ -19,9 +19,9 @@ model Url  {
 }
 
 model Analytics {
-  id String @id @default(auto()) @map("_id") @db.ObjectId
+  id Int @id @default(autoincrement())
   url Url @relation(fields: [url_id], references: [id], name: "UrlAnalytics")
-  url_id String @db.ObjectId
+  url_id Int
   ip_address String
   device String 
   time_stamp DateTime @default(now())

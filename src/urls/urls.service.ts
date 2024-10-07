@@ -23,9 +23,9 @@ export class UrlsService {
 
 
 
-  findOne(id: string) {
+  async findOne(id: string) {
     //check expiry and return url 
-    return this.databaseService.url.findUnique({where : {short_url:id}});
+    return await this.databaseService.url.findUnique({where : {short_url:id}});
   }
 
 }

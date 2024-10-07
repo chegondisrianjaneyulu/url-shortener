@@ -1,7 +1,7 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, ParseIntPipe, ValidationPipe } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, ParseIntPipe, ValidationPipe, Res } from '@nestjs/common';
 import { UrlsService } from './urls.service';
 import { CreateUrlDto } from './dto/create-url.dto';
-
+import {Response} from 'express'
 
 @Controller('urls')
 export class UrlsController {
@@ -22,9 +22,17 @@ export class UrlsController {
 
   //get url by shortid
   @Get(':shortid')
-  findOne(@Param('short-id') shortid: string) {
+  async findOne(@Param('shortid') shortid: string, @Res() res: Response) {
     //redirect the response to url
-    return this.urlsService.findOne(shortid);
+    let url =  await this.urlsService.findOne(shortid);
+
+    if (url) {
+      return res.redirect(url.original_url);
+    }
+    else {
+      return res.status(404).json({ message: 'URL not found' });
+    }
+   
   }
 
 
